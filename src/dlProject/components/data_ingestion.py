@@ -14,7 +14,7 @@ class DataIngestion:
         
     def download_file(self):
 
-        file_path = Path(self.config.data_source_dir, self.config.local_data_file)
+        file_path = Path(self.config.data_source_dir, self.config.data_file_name)
         destination_path = Path(self.config.root_dir)
 
         os.system(f"cp {file_path} {destination_path}")
