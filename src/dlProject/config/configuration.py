@@ -1,7 +1,8 @@
 from pathlib import Path
 from dlProject.constants import *
 from dlProject.utils.common import read_yaml, create_directories
-from dlProject.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataSplitConfig
+from dlProject.utils.features import *
+from dlProject.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataSplitConfig, TrainModelDlConfig
 
 class ConfigurationManager:
     def __init__(
@@ -10,10 +11,14 @@ class ConfigurationManager:
             params_filepath = Path(PARAMS_FILE_PATH),
             schema_filepath = Path(SCHEMA_FILE_PATH)
         ):
-        print(config_filepath, params_filepath, schema_filepath)
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
         self.schema = read_yaml(schema_filepath)
+        
+        self.params.features.stat_features = stat_features_twc
+        self.params.labels.target_labels = target_labels
+        self.params.labels.target_column = target_column
+        self.params.features.seq_packet_feature = seq_packet_feature
         
         create_directories([self.config.artifacts_root])
         
@@ -52,3 +57,16 @@ class ConfigurationManager:
             test_size=config_data_split.test_size
         )
         return data_split_config
+    
+    def get_train_model_dl_config(self) -> TrainModelDlConfig:
+        config_train_model_dl = self.config.model_trainer
+        create_directories([config_train_model_dl.root_dir])
+        train_model_dl_config = TrainModelDlConfig(
+            root_dir=config_train_model_dl.root_dir,
+            data_source_dir=config_train_model_dl.data_source_dir,
+            train_data_file_name=config_train_model_dl.train_data_file_name,
+            test_data_file_name=config_train_model_dl.test_data_file_name,
+            model_name=config_train_model_dl.model_name,
+            params=self.params
+        )
+        return train_model_dl_config

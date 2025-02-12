@@ -20,3 +20,12 @@ class DataSplitConfig:
     data_file_name: str
     label_column: str
     test_size: float
+    
+@dataclass
+class TrainModelDlConfig:
+    root_dir: str
+    data_source_dir: str
+    train_data_file_name: str
+    test_data_file_name: str
+    model_name: str
+    params: dict

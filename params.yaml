@@ -1,1 +1,60 @@
-key: val
+version: 1.0.0
+
+project: 
+    type: "dl"
+    project_home: "/home/mpaul/projects/mpaul/mai2"
+    mlflow_uri: "http://localhost:5000"
+    log_dir: "/home/mpaul/projects/mpaul/mai2/logs"
+    model_type: ["mlp"]
+
+features:     
+    use_transfer_learning: false
+    cn_stat_feature_length: 57
+    sequence_length: 30
+    seq_packet_feature: []
+    cnn_stat_feature: ["stat_features"]
+    stat_features: []
+
+labels: 
+    target_column: "refined_app_label"
+    target_labels: ["Discord", "Telegram", "Microsoft Teams", "Whatsapp", "Facebook Messenger", "Signal"]
+
+validation:
+    validation_percent: 0.2
+
+model_params:
+    intilializer: he_uniform
+    epochs: 100
+    steps_per_epoch: 100
+    train_batch_size: 32
+    test_batch_size: 32
+    learning_rate: 0.001
+    dropout_rate: 0.5
+    early_stopping:
+        monitor: val_loss
+        patience: 10
+        restore_best_weights: true
+    regularizer:
+        l1: 0.01
+        # l2: 0.01
+lstm:   
+    num_units: 2
+    lstm_units: 64
+    num_lstm_dense: 2
+    lstm_dense_unit: [192., 64]
+
+mlp: 
+    num_dense: 3
+    units_list: [64, 64, 64]
+
+cnn: 
+    num_cnn: 6
+    num_filter: 16
+
+dense: 
+    num_dense: 2
+    dense_units_list: [64, 32]
+
+final_dense: 
+    num_final_dense: 0
+    final_dense_units_list: [192]

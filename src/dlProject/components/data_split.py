@@ -12,7 +12,8 @@ class DataSplit:
     def split_data(self):
         file = Path(self.config.data_source_dir, self.config.data_file_name)
         df = read_file(file)
-        train_df, test_df = train_test_split(df, test_size=self.config.test_size, random_state=42, stratify=df[self.config.label_column])
+        train_df, test_df = train_test_split(df, test_size=self.config.test_size, random_state=42, #stratify=df[self.config.label_column]
+        )
         train_file = Path(self.config.root_dir, f"{self.config.data_file_name.split('.')[0]}_train.csv")
         test_file = Path(self.config.root_dir, f"{self.config.data_file_name.split('.')[0]}_test.csv")
         train_df.to_csv(train_file, index=False)
