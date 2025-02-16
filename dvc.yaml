@@ -4,6 +4,7 @@ stages:
     deps:
       - src/dlProject/pipeline/stage_01_data_ingestion.py
       - config/config.yaml
+      - data_source/traffic_data_s.orc
     outs:
       - artifacts/data_feb16/data_ingestion
 
@@ -39,6 +40,7 @@ stages:
     cmd: python3 src/dlProject/pipeline/stage_05_model_train.py
     deps:
       - src/dlProject/pipeline/stage_05_model_train.py
+      - artifacts/data_feb16/model_builder
       - artifacts/data_feb16/data_split
       - config/config.yaml
       - params.yaml
@@ -49,6 +51,8 @@ stages:
     cmd: python3 src/dlProject/pipeline/stage_06_model_test.py
     deps:
       - src/dlProject/pipeline/stage_06_model_test.py
+      - artifacts/data_feb16/data_split
+      - artifacts/data_feb16/model_trainer
       - config/config.yaml
       - params.yaml
     outs:

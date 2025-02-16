@@ -32,6 +32,7 @@ class ConfigurationManager:
         config_data_ingestion = self.config.data_ingestion
         logger.info(f"Data ingestion config: {config_data_ingestion}")
         create_directories([config_data_ingestion.root_dir])
+        logger.info(f"Created directories for data ingestion")
 
         data_ingestion_config = DataIngestionConfig(
             root_dir=config_data_ingestion.root_dir,

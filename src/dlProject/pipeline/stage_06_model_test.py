@@ -38,3 +38,13 @@ class TestModelDlPipeline:
         print("\n", classification_report)
         classification_report.to_csv(confusion_matrix_file_name)
         logger.info(f"\nClassification report saved to {confusion_matrix_file_name}")
+
+if __name__ == '__main__':
+    try:
+        logger.info(f">>>>>> stage Model Test started <<<<<<")
+        obj = TestModelDlPipeline()
+        obj.main()
+        logger.info(f">>>>>> stage Model Test completed <<<<<<\n\nx==========x")
+    except Exception as e:
+        logger.exception(e)
+        raise e

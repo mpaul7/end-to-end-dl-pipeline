@@ -28,3 +28,13 @@ class ModelBuilderPipeline:
             
             """ Model Summary """
             model_arch.summary()
+
+if __name__ == '__main__':
+    try:
+        logger.info(f">>>>>> stage Model Build started <<<<<<")
+        obj = ModelBuilderPipeline()
+        obj.main()
+        logger.info(f">>>>>> stage Model Build completed <<<<<<\n\nx==========x")
+    except Exception as e:
+        logger.exception(e)
+        raise e

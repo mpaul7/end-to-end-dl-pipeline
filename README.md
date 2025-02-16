@@ -76,3 +76,34 @@ The pipeline stages are managed using Data Version Control (DVC). DVC helps:
 The pipeline stages and their dependencies are defined in dvc.yaml. Running `dvc repro` executes the pipeline in the correct order based on the DAG. DVC ensures reproducibility by tracking the exact versions of data and code used in each stage.
 
 
+### Example pipeline DAG
+
+```
+                              +----------------+    
+                              | data_ingestion |    
+                              +----------------+    
+                                        *           
+                                        *           
+                                        *           
+                            +---------------------+ 
+                            | data_transformation | 
+                            +---------------------+ 
+                                        *           
+                                        *           
+                                        *           
++---------------+               +------------+      
+| model_builder |               | data_split |      
++---------------+          *****+------------+      
+        *             *****             *           
+        *        *****                  *           
+        *     ***                       *           
++---------------+                      **           
+| model_trainer |                    **             
++---------------+                 ***               
+               ***             ***                  
+                  **         **                     
+                    **     **                       
+                 +------------+                     
+                 | model_test |                     
+                 +------------+                     
+```
