@@ -14,12 +14,10 @@ class ConfigurationManager:
     def __init__(
             self,
             config_filepath = Path(CONFIG_FILE_PATH),
-            params_filepath = Path(PARAMS_FILE_PATH),
-            schema_filepath = Path(SCHEMA_FILE_PATH)
+            params_filepath = Path(PARAMS_FILE_PATH)
         ):
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
-        self.schema = read_yaml(schema_filepath)
         
         self.params.features.stat_features = stat_features_twc
         self.params.labels.target_labels = target_labels
