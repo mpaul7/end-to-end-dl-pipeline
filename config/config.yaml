@@ -1,6 +1,5 @@
 artifacts_root: artifacts
 
-
 data_ingestion:
   root_dir: artifacts/solana_data_twc_extract/data_ingestion
   data_source_dir: data_source
@@ -22,8 +21,6 @@ data_split:
   data_source_dir: artifacts/solana_data_twc_extract/data_transformation
   data_file_name: traffic_data_s_transformed.csv
   params: {}
-  # label_column: refined_app_label
-  # test_size: 0.2
 
 model_builder:
   root_dir: artifacts/solana_data_twc_extract/model_builder

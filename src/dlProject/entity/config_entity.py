@@ -19,8 +19,6 @@ class DataSplitConfig:
     data_source_dir: str
     data_file_name: str
     params: dict
-        # label_column: str
-        # test_size: float
     
 @dataclass
 class BuildModelConfig:

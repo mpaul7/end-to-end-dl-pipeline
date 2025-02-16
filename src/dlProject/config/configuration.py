@@ -60,8 +60,6 @@ class ConfigurationManager:
             data_source_dir=config_data_split.data_source_dir,
             data_file_name=config_data_split.data_file_name,
             params=self.params,
-            # label_column=config_data_split.label_column,
-            # test_size=config_data_split.test_size
         )
         return data_split_config
     
