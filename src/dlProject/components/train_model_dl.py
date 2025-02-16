@@ -1,19 +1,20 @@
 import warnings
 warnings.filterwarnings('ignore')
 
-
 import json
 from pathlib import Path
-from datetime import datetime
-
-from dlProject.utils.common import *
-from dlProject.components import utils_dl
-from dlProject.entity.config_entity import TrainModelDlConfig
 
 import tensorflow as tf
-# from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.keras.losses import CategoricalCrossentropy
+from keras.callbacks import TensorBoard
+from keras.losses import CategoricalCrossentropy, SparseCategoricalCrossentropy
+
+from dlProject.utils.common import *
+from dlProject.entity.config_entity import TrainModelDlConfig
+
+loss_function = {
+    'categorical_crossentropy': CategoricalCrossentropy(),
+    'sparse_categorical_crossentropy': SparseCategoricalCrossentropy()
+}
 
 class TrainModelDl:
     
@@ -23,10 +24,9 @@ class TrainModelDl:
         self.train_dataset = train_dataset
         self.val_dataset = val_dataset
         
-        current_datetime = datetime.now().strftime("%Y%m%d%H%M%S")
         model_name = "_".join(model_type for model_type in self.params.project.model_type)
         self.params.model_name = model_name
-        self.params.model_plot = Path(self.config.root_dir, f"{model_name}_{current_datetime}.png")
+        self.params.model_plot = Path(self.config.root_dir, f"{model_name}.png")
         self.params.output_units = len(self.params.labels)
 
         self.params.experiment_name = f"cnn_mlp_stat_solana_data_nfs_ext_2024-02-08_v1"
@@ -39,7 +39,8 @@ class TrainModelDl:
             config_file (str): Path to the configuration file
 
     """
-        _model_arch = "/home/mpaul/projects/mpaul/mai/models/mlp_120_0.01_20250211223752.json"
+        _model_arch = Path(self.config.model_source_dir, self.config.model_file_name)
+        
         with open(_model_arch) as f:
             model_arch = json.load(f)
         model = tf.keras.models.model_from_json(model_arch)
@@ -53,9 +54,9 @@ class TrainModelDl:
         
         """ Compile model """
         model.compile(
-            loss=CategoricalCrossentropy(),
+            loss=loss_function[self.params.model_params.loss_function],
             optimizer=tf.keras.optimizers.Adam(learning_rate=self.params.model_params.learning_rate),
-            metrics=['accuracy']
+            metrics=self.params.model_params.metrics
         )
         
         """ Apply batching """

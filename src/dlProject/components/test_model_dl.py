@@ -2,7 +2,6 @@ import numpy as np
 from pathlib import Path
 from datetime import datetime
 
-from dlProject.components import utils_dl
 from dlProject.entity.config_entity import TestModelDlConfig
 
 import tensorflow as tf

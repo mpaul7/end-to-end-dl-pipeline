@@ -18,15 +18,24 @@ class DataSplitConfig:
     root_dir: str
     data_source_dir: str
     data_file_name: str
-    label_column: str
-    test_size: float
+    params: dict
+        # label_column: str
+        # test_size: float
     
+@dataclass
+class BuildModelConfig:
+    root_dir: str
+    model_json: str
+    model_plot: str
+    params: dict
 @dataclass
 class TrainModelDlConfig:
     root_dir: str
     data_source_dir: str
     train_data_file_name: str
-    model_name: str
+    model_source_dir: str
+    model_file_name: str
+    train_model_file_name: str
     params: dict
     
 @dataclass

@@ -19,13 +19,14 @@ labels:
     target_column: "refined_app_label"
     target_labels: ["Discord", "Telegram", "Microsoft Teams", "Whatsapp", "Facebook Messenger", "Signal"]
 
-validation:
-    validation_percent: 0.2
+data_split:
+    test_size: 0.2
+    validation_size: 0.2
 
 model_params:
-    intilializer: he_uniform
-    epochs: 100
-    steps_per_epoch: 100
+    initializer: he_uniform
+    epochs: 50
+    steps_per_epoch: 20
     train_batch_size: 32
     test_batch_size: 32
     learning_rate: 0.001
@@ -37,6 +38,9 @@ model_params:
     regularizer:
         l1: 0.01
         # l2: 0.01
+    metrics:
+        - accuracy
+    loss_function: categorical_crossentropy
 lstm:   
     num_units: 2
     lstm_units: 64

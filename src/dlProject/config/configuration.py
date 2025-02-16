@@ -5,8 +5,10 @@ from dlProject.utils.features import *
 from dlProject.entity.config_entity import (DataIngestionConfig, 
                                             DataTransformationConfig, 
                                             DataSplitConfig, 
+                                            BuildModelConfig,
                                             TrainModelDlConfig, 
-                                            TestModelDlConfig)
+                                            TestModelDlConfig
+                                            )
 
 class ConfigurationManager:
     def __init__(
@@ -57,10 +59,22 @@ class ConfigurationManager:
             root_dir=config_data_split.root_dir,
             data_source_dir=config_data_split.data_source_dir,
             data_file_name=config_data_split.data_file_name,
-            label_column=config_data_split.label_column,
-            test_size=config_data_split.test_size
+            params=self.params,
+            # label_column=config_data_split.label_column,
+            # test_size=config_data_split.test_size
         )
         return data_split_config
+    
+    def get_build_model_config(self) -> BuildModelConfig:
+        config_build_model = self.config.model_builder
+        create_directories([config_build_model.root_dir])
+        build_model_config = BuildModelConfig(
+            root_dir=config_build_model.root_dir,
+            model_json=config_build_model.model_json,
+            model_plot=config_build_model.model_plot,
+            params=self.params
+        )
+        return build_model_config
     
     def get_train_model_dl_config(self) -> TrainModelDlConfig:
         config_train_model_dl = self.config.model_trainer
@@ -69,7 +83,9 @@ class ConfigurationManager:
             root_dir=config_train_model_dl.root_dir,
             data_source_dir=config_train_model_dl.data_source_dir,
             train_data_file_name=config_train_model_dl.train_data_file_name,
-            model_name=config_train_model_dl.model_name,
+            model_source_dir=config_train_model_dl.model_source_dir,
+            model_file_name=config_train_model_dl.model_file_name,
+            train_model_file_name=config_train_model_dl.train_model_file_name,
             params=self.params
         )
         return train_model_dl_config
