@@ -31,6 +31,5 @@ def create_dl_model_mlp(params):
         x = layers.BatchNormalization(name=f'batch_norm_{i}')(x)
         x = layers.LeakyReLU(name=f'leaky_relu_{i}')(x)
         x = layers.Dropout(params.model_params.dropout_rate, name=f'dropout_{i}')(x)
-
         
     return inputs, x

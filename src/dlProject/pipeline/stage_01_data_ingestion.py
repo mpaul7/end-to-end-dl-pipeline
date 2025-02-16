@@ -6,12 +6,12 @@ from datetime import datetime
 from dlProject.commons.create_tf_dataset import create_train_test_dataset_tf
 from dlProject.utils.classification_report import getClassificationReport
 from dlProject.config.configuration import ConfigurationManager
-from dlProject.components.data_ingestion import DataIngestion
-from dlProject.components.data_transformation import DataTransformation
+from dlProject.components.data_ingest import DataIngestion
+from dlProject.components.data_transform import DataTransformation
 from dlProject.components.data_split import DataSplit
-from dlProject.components.build_model import BuildModel
-from dlProject.components.train_model_dl import TrainModelDl
-from dlProject.components.test_model_dl import TestModelDl
+from dlProject.components.model_build import BuildModel
+from dlProject.components.model_train import TrainModelDl
+from dlProject.components.model_test import TestModelDl
 
 STAGE_NAME = "Data Ingestion stage"
 
@@ -80,8 +80,9 @@ class TrainModelDlPipeline:
         model = train_model_dl.train_model_dl()
         
         """ Save model """
-        model.save(Path(train_model_dl_config.root_dir, f"{train_model_dl_config.train_model_file_name}"))
-        logger.info(f"\nModel saved to {Path(train_model_dl_config.root_dir, f"{train_model_dl_config.train_model_file_name}")}")
+        model_h5_path = Path(train_model_dl_config.root_dir, f"{train_model_dl_config.train_model_file_name}")
+        model.save(model_h5_path)
+        logger.info(f"\nModel saved to {model_h5_path}")
         
 class TestModelDlPipeline:
     def __init__(self):
