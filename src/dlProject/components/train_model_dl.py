@@ -1,22 +1,35 @@
 import warnings
 warnings.filterwarnings('ignore')
 
-import os
-import click
+
 import json
 from pathlib import Path
 from datetime import datetime
+
+from dlProject.utils.common import *
 from dlProject.components import utils_dl
-from dlProject.components.dl_models import DLModels
 from dlProject.entity.config_entity import TrainModelDlConfig
 
 import tensorflow as tf
-# from tensorflow.keras.models import model_from_json
+# from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.callbacks import TensorBoard
+from tensorflow.keras.losses import CategoricalCrossentropy
+
 class TrainModelDl:
     
-    def __init__(self, config: TrainModelDlConfig):
+    def __init__(self, config: TrainModelDlConfig, train_dataset: tf.data.Dataset, val_dataset: tf.data.Dataset):
         self.config = config
         self.params = config.params
+        self.train_dataset = train_dataset
+        self.val_dataset = val_dataset
+        
+        current_datetime = datetime.now().strftime("%Y%m%d%H%M%S")
+        model_name = "_".join(model_type for model_type in self.params.project.model_type)
+        self.params.model_name = model_name
+        self.params.model_plot = Path(self.config.root_dir, f"{model_name}_{current_datetime}.png")
+        self.params.output_units = len(self.params.labels)
+
+        self.params.experiment_name = f"cnn_mlp_stat_solana_data_nfs_ext_2024-02-08_v1"
         
     def train_model_dl(self):
         """ Train DL model
@@ -26,40 +39,65 @@ class TrainModelDl:
             config_file (str): Path to the configuration file
 
     """
-                
-        current_datetime = datetime.now().strftime("%Y%m%d%H%M%S")
-        model_name = "_".join(model_type for model_type in self.params.project.model_type)
-        self.params.model_name = model_name
-    
-        self.params.model_plot = Path(self.config.root_dir, f"{model_name}_{current_datetime}.png")
-        self.params.model_h5_path = Path(self.config.root_dir, f"{model_name}_{self.params.model_params.epochs}_{self.params.model_params.learning_rate}_{current_datetime}.h5")
-        print(self.params.model_h5_path)
-        self.params.model_json_path = Path(self.config.root_dir, f"{model_name}_{self.params.model_params.epochs}_{self.params.model_params.learning_rate}_{current_datetime}.json")
-        self.params.output_units = len(self.params.labels)
-
-        
-        self.params.experiment_name = f"cnn_mlp_stat_solana_data_nfs_ext_2024-02-08_v1"
-        
         _model_arch = "/home/mpaul/projects/mpaul/mai/models/mlp_120_0.01_20250211223752.json"
         with open(_model_arch) as f:
             model_arch = json.load(f)
         model = tf.keras.models.model_from_json(model_arch)
+        
+        
         """ Model Summary """
         model.summary()
         
-        """ Train DL model
-            Return: trained model
-        """
+        """ Visualize model """
+        tf.keras.utils.plot_model(model, self.params.model_plot, show_shapes=True)
         
-        train_file = Path(self.config.data_source_dir, self.config.train_data_file_name)
-           
-        _model = DLModels(
-            train_file=train_file,
-            params=self.params,
-            model=model,
-            test_file=None,
-            trained_model_file=None
+        """ Compile model """
+        model.compile(
+            loss=CategoricalCrossentropy(),
+            optimizer=tf.keras.optimizers.Adam(learning_rate=self.params.model_params.learning_rate),
+            metrics=['accuracy']
         )
         
-        model = _model.train_model()
-        # model.save(params['model_h5_path'], save_format='h5')
+        """ Apply batching """
+        train_dataset = self.train_dataset.batch(self.params.model_params.train_batch_size)
+        val_dataset = self.val_dataset.batch(self.params.model_params.test_batch_size)
+        
+        """ Setup callbacks """
+        callbacks = self._setup_callbacks()
+
+        """ Train model """
+        model.fit(
+            train_dataset,
+            epochs=self.params.model_params.epochs,
+            steps_per_epoch=self.params.model_params.steps_per_epoch,
+            validation_data=val_dataset,
+            callbacks=callbacks
+        )
+            
+        return model
+
+    def _setup_callbacks(self) -> list:
+        """Sets up training callbacks based on configuration.
+        
+        Args:
+            params (dict): Model configuration parameters
+            
+        Returns:
+            list: List of Keras callbacks
+        """
+        callbacks = []
+        
+        # Add TensorBoard callback if log directory is specified
+        log_dir = f"{self.params.project.project_home}/{self.params.project.log_dir}"
+        if log_dir:
+            callbacks.append(TensorBoard(log_dir=log_dir, histogram_freq=1, profile_batch='20, 40'))
+        
+        """ Add early stopping if enabled """
+        if self.params.model_params.early_stopping:
+            callbacks.append(tf.keras.callbacks.EarlyStopping(
+                monitor=self.params.model_params.early_stopping.monitor, 
+                patience=self.params.model_params.early_stopping.patience,
+                )
+            )
+        
+        return callbacks

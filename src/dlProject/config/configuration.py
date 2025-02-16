@@ -2,7 +2,11 @@ from pathlib import Path
 from dlProject.constants import *
 from dlProject.utils.common import read_yaml, create_directories
 from dlProject.utils.features import *
-from dlProject.entity.config_entity import DataIngestionConfig, DataTransformationConfig, DataSplitConfig, TrainModelDlConfig
+from dlProject.entity.config_entity import (DataIngestionConfig, 
+                                            DataTransformationConfig, 
+                                            DataSplitConfig, 
+                                            TrainModelDlConfig, 
+                                            TestModelDlConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -65,8 +69,20 @@ class ConfigurationManager:
             root_dir=config_train_model_dl.root_dir,
             data_source_dir=config_train_model_dl.data_source_dir,
             train_data_file_name=config_train_model_dl.train_data_file_name,
-            test_data_file_name=config_train_model_dl.test_data_file_name,
             model_name=config_train_model_dl.model_name,
             params=self.params
         )
         return train_model_dl_config
+    
+    def get_test_model_dl_config(self) -> TestModelDlConfig:
+        config_model_test = self.config.model_test
+        create_directories([config_model_test.root_dir])
+        test_model_dl_config = TestModelDlConfig(
+            root_dir=config_model_test.root_dir,
+            data_source_dir=config_model_test.data_source_dir,
+            test_data_file_name=config_model_test.test_data_file_name,
+            model_dir=config_model_test.model_dir,
+            model_file_name=config_model_test.model_file_name,
+            params=self.params
+        )
+        return test_model_dl_config

@@ -290,13 +290,10 @@ def create_dl_model_mlp(params):
 def create_train_test_dataset_tf(data_file=None, params=None, train=None, evaluation=None):
     df = pd.read_csv(data_file)
     model_type = params.project.model_type
-    print(model_type)
     features = ["refined_app_label"]
     if 'mlp' in model_type:
-        # print("mlp")
         features.extend(params.features.stat_features)
     if 'lstm' in model_type:
-        # print("lstm")
         features.extend(params.features.seq_packet_feature)
     if 'cnn' in model_type:
         features.extend(params.features.cnn_stat_feature)
@@ -308,7 +305,6 @@ def create_train_test_dataset_tf(data_file=None, params=None, train=None, evalua
         #     features.extend(params['cnn_byte_feature'])
         
     # features.extend("refined_app_label")
-    print(features)
 
     # Subset the dataframe based on the specified features and target column
     df_subset = df[features]
