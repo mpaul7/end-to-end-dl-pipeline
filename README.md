@@ -1,4 +1,10 @@
-# end-to-end-dl-pipeline
+# End To End DL Pipeline
+
+## Description
+
+This is an end to end deep learning pipeline for a classification problem. It includes data ingestion, data transformation, data split, model build, model train, and model test. The pipeline supports multiple deep learning model architectures including Convolutional Neural Networks (CNN), Multi-Layer Perceptrons (MLP), and Long Short-Term Memory (LSTM) networks. The model architecture is defined in a JSON file that can be exported and reused across different projects. The model hyperparameters can be configured through the parameters file.
+
+The brief description of various pipeline is as below:
 
 ## Data Ingestion
 
@@ -33,3 +39,4 @@
 - Test model
 - Test models like MLP, LSTM, CNN, based on the model type and parameters in the params.yaml file
 - Save model to local
+
