@@ -1,5 +1,5 @@
 
-pandas 
+pandas
 mlflow==2.2.2
 notebook
 numpy
@@ -12,6 +12,9 @@ dvc
 ensure==1.0.2
 joblib
 types-PyYAML
+Flask
+Flask-Cors
+mlflow==2.2.2
 Flask
 Flask-Cors
 -e .
