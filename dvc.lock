@@ -5,8 +5,8 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: a3a88de1c3ee84a87fe0495d6fed3848
+      size: 1734
     - path: data_source/traffic_data_s.orc
       hash: md5
       md5: 36019fd2b63119e733ce8d9a80e54965
@@ -16,45 +16,45 @@ stages:
       md5: 1d95a0450475289d990b954b343d6dc1
       size: 4957
     outs:
-    - path: artifacts/data_feb16/data_ingestion
+    - path: artifacts/data_mar01/data_ingestion
       hash: md5
-      md5: 288bc05eba55ad5a2de4d8a9d6cee0b0.dir
-      size: 1884683474
+      md5: e4212af9f9a9d8197ee80530ec2a488b.dir
+      size: 906763852
       nfiles: 1
   data_transformation:
     cmd: python3 src/dlProject/pipeline/stage_02_data_transformation.py
     deps:
-    - path: artifacts/data_feb16/data_ingestion
+    - path: artifacts/data_mar01/data_ingestion
       hash: md5
-      md5: 288bc05eba55ad5a2de4d8a9d6cee0b0.dir
-      size: 1884683474
+      md5: e4212af9f9a9d8197ee80530ec2a488b.dir
+      size: 906763852
       nfiles: 1
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
     - path: src/dlProject/pipeline/stage_02_data_transformation.py
       hash: md5
       md5: c5efc7ec5bea172bc7dffc4130390108
       size: 1349
     outs:
-    - path: artifacts/data_feb16/data_transformation
+    - path: artifacts/data_mar01/data_transformation
       hash: md5
-      md5: 80324dd3555f757c5f0500c9267657ea.dir
-      size: 1130486951
+      md5: 4b71cc99710dca8dcdf84b19840e8694.dir
+      size: 8962426877
       nfiles: 1
   data_split:
     cmd: python3 src/dlProject/pipeline/stage_03_data_split.py
     deps:
-    - path: artifacts/data_feb16/data_transformation
+    - path: artifacts/data_mar01/data_preparation
       hash: md5
-      md5: 80324dd3555f757c5f0500c9267657ea.dir
-      size: 1130486951
-      nfiles: 1
+      md5: b98458dd882d2e593f9dfdc135969694.dir
+      size: 8817656044
+      nfiles: 3
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
     - path: src/dlProject/pipeline/stage_03_data_split.py
       hash: md5
       md5: bc8584438d8bcc01c7b40dd33cb4d5a0
@@ -63,87 +63,109 @@ stages:
       params.yaml:
         data_split.test_size: 0.2
     outs:
-    - path: artifacts/data_feb16/data_split
+    - path: artifacts/data_mar01/data_split
       hash: md5
-      md5: 2fee5348fab1ca4085f42762fc0d1b9a.dir
-      size: 1126701921
+      md5: 362da901688bc78c74b943e176c902fb.dir
+      size: 7791228552
       nfiles: 2
   model_builder:
     cmd: python3 src/dlProject/pipeline/stage_04_model_build.py
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
     - path: src/dlProject/pipeline/stage_04_model_build.py
       hash: md5
       md5: 7c7c9c1ce5d64c8809faea922888a1c0
       size: 1553
     outs:
-    - path: artifacts/data_feb16/model_builder
+    - path: artifacts/data_mar01/model_builder
       hash: md5
-      md5: 0195049f2755904eb0640c4c70ece2bc.dir
-      size: 486199
+      md5: 1eecb982b06bb9abbe9eb7fde2debd54.dir
+      size: 670664
       nfiles: 2
   model_trainer:
     cmd: python3 src/dlProject/pipeline/stage_05_model_train.py
     deps:
-    - path: artifacts/data_feb16/data_split
+    - path: artifacts/data_mar01/data_split
       hash: md5
-      md5: 2fee5348fab1ca4085f42762fc0d1b9a.dir
-      size: 1126701921
+      md5: 362da901688bc78c74b943e176c902fb.dir
+      size: 7791228552
       nfiles: 2
-    - path: artifacts/data_feb16/model_builder
+    - path: artifacts/data_mar01/model_builder
       hash: md5
-      md5: 0195049f2755904eb0640c4c70ece2bc.dir
-      size: 486199
+      md5: 1eecb982b06bb9abbe9eb7fde2debd54.dir
+      size: 670664
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
     - path: params.yaml
       hash: md5
-      md5: a3c2022ccc57db279880e48de38fcecd
-      size: 1345
+      md5: e1d053f10f3b1cfe594c5cb4781b0952
+      size: 1348
     - path: src/dlProject/pipeline/stage_05_model_train.py
       hash: md5
-      md5: 7ea05f9d1b084bee2042ed32e4e32633
-      size: 1931
+      md5: 855f5e55a3bffde59541b4e78eff7beb
+      size: 1523
     outs:
-    - path: artifacts/data_feb16/model_trainer
+    - path: artifacts/data_mar01/model_trainer
       hash: md5
-      md5: b7fbf25ddfb909f44ee3d0b25ce812fe.dir
-      size: 816969
+      md5: c05ca97d6777d56939e09abdd10b5db1.dir
+      size: 1229646
       nfiles: 2
   model_test:
     cmd: python3 src/dlProject/pipeline/stage_06_model_test.py
     deps:
-    - path: artifacts/data_feb16/data_split
+    - path: artifacts/data_mar01/data_split
       hash: md5
-      md5: 2fee5348fab1ca4085f42762fc0d1b9a.dir
-      size: 1126701921
+      md5: 362da901688bc78c74b943e176c902fb.dir
+      size: 7791228552
       nfiles: 2
-    - path: artifacts/data_feb16/model_trainer
+    - path: artifacts/data_mar01/model_trainer
       hash: md5
-      md5: b7fbf25ddfb909f44ee3d0b25ce812fe.dir
-      size: 816969
+      md5: c05ca97d6777d56939e09abdd10b5db1.dir
+      size: 1229646
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 844fb23b6b1915a344aabb0d649753ba
-      size: 1234
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
     - path: params.yaml
       hash: md5
-      md5: a3c2022ccc57db279880e48de38fcecd
-      size: 1345
+      md5: e1d053f10f3b1cfe594c5cb4781b0952
+      size: 1348
     - path: src/dlProject/pipeline/stage_06_model_test.py
       hash: md5
       md5: f2e09d84fd174f9db16593748b3cf835
       size: 2204
     outs:
-    - path: artifacts/data_feb16/model_test
+    - path: artifacts/data_mar01/model_test
       hash: md5
-      md5: eb14749638aad7d8a3767ff404a7f99a.dir
-      size: 486
+      md5: 53bb00b0daa70a43df2736fbaf8414a6.dir
+      size: 6301
       nfiles: 1
+  data_preprocessing:
+    cmd: python3 src/dlProject/pipeline/stage_02a_data_preparation.py
+    deps:
+    - path: artifacts/data_mar01/data_transformation
+      hash: md5
+      md5: 4b71cc99710dca8dcdf84b19840e8694.dir
+      size: 8962426877
+      nfiles: 1
+    - path: config/config.yaml
+      hash: md5
+      md5: f8a62bb992f65462a0530ec7f01494c8
+      size: 1491
+    - path: src/dlProject/pipeline/stage_02a_data_preparation.py
+      hash: md5
+      md5: 713a4c84295a5270e9179998a657a410
+      size: 834
+    outs:
+    - path: artifacts/data_mar01/data_preparation
+      hash: md5
+      md5: b98458dd882d2e593f9dfdc135969694.dir
+      size: 8817656044
+      nfiles: 3

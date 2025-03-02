@@ -7,6 +7,12 @@ class DataIngestionConfig:
     data_file_name: str
     
 @dataclass
+class DataPreprocessingConfig:
+    root_dir: str
+    data_source_dir: str
+    data_file_name: str
+    
+@dataclass
 class DataTransformationConfig:
     root_dir: str
     data_source_dir: str
@@ -18,6 +24,14 @@ class DataSplitConfig:
     root_dir: str
     data_source_dir: str
     data_file_name: str
+    params: dict
+    
+@dataclass
+class FeatureSelectionConfig:
+    root_dir: str
+    data_source_dir: str
+    train_data_file_name: str
+    test_data_file_name: str
     params: dict
     
 @dataclass

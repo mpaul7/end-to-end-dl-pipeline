@@ -6,27 +6,36 @@ stages:
       - config/config.yaml
       - data_source/traffic_data_s.orc
     outs:
-      - artifacts/data_feb16/data_ingestion
+      - artifacts/data_mar01/data_ingestion
 
   data_transformation:
     cmd: python3 src/dlProject/pipeline/stage_02_data_transformation.py
     deps:
       - src/dlProject/pipeline/stage_02_data_transformation.py
-      - artifacts/data_feb16/data_ingestion
+      - artifacts/data_mar01/data_ingestion
       - config/config.yaml
     outs:
-      - artifacts/data_feb16/data_transformation  
+      - artifacts/data_mar01/data_transformation  
+
+  data_preprocessing:
+    cmd: python3 src/dlProject/pipeline/stage_02a_data_preparation.py
+    deps:
+      - src/dlProject/pipeline/stage_02a_data_preparation.py
+      - artifacts/data_mar01/data_transformation
+      - config/config.yaml
+    outs:
+      - artifacts/data_mar01/data_preparation
 
   data_split:
     cmd: python3 src/dlProject/pipeline/stage_03_data_split.py
     deps:
       - src/dlProject/pipeline/stage_03_data_split.py
-      - artifacts/data_feb16/data_transformation
+      - artifacts/data_mar01/data_preparation
       - config/config.yaml
     params:
       - data_split.test_size
     outs:
-      - artifacts/data_feb16/data_split 
+      - artifacts/data_mar01/data_split 
 
   model_builder:
     cmd: python3 src/dlProject/pipeline/stage_04_model_build.py
@@ -34,26 +43,26 @@ stages:
       - src/dlProject/pipeline/stage_04_model_build.py
       - config/config.yaml
     outs:
-      - artifacts/data_feb16/model_builder    
+      - artifacts/data_mar01/model_builder    
 
   model_trainer:  
     cmd: python3 src/dlProject/pipeline/stage_05_model_train.py
     deps:
       - src/dlProject/pipeline/stage_05_model_train.py
-      - artifacts/data_feb16/model_builder
-      - artifacts/data_feb16/data_split
+      - artifacts/data_mar01/model_builder
+      - artifacts/data_mar01/data_split
       - config/config.yaml
       - params.yaml
     outs:
-      - artifacts/data_feb16/model_trainer    
+      - artifacts/data_mar01/model_trainer    
 
   model_test:
     cmd: python3 src/dlProject/pipeline/stage_06_model_test.py
     deps:
       - src/dlProject/pipeline/stage_06_model_test.py
-      - artifacts/data_feb16/data_split
-      - artifacts/data_feb16/model_trainer
+      - artifacts/data_mar01/data_split
+      - artifacts/data_mar01/model_trainer
       - config/config.yaml
       - params.yaml
     outs:
-      - artifacts/data_feb16/model_test
+      - artifacts/data_mar01/model_test

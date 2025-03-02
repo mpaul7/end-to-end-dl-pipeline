@@ -12,7 +12,7 @@ features:
     cn_stat_feature_length: 57
     sequence_length: 30
     seq_packet_feature: []
-    cnn_stat_feature: ["stat_features"]
+    cnn_stat_feature: ["tr_stat_features"]
     stat_features: []
 
 labels: 

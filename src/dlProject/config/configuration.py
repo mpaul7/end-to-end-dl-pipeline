@@ -4,8 +4,10 @@ from dlProject.constants import *
 from dlProject.utils.common import read_yaml, create_directories
 from dlProject.utils.features import *
 from dlProject.entity.config_entity import (DataIngestionConfig, 
+                                            DataPreprocessingConfig,
                                             DataTransformationConfig, 
                                             DataSplitConfig, 
+                                            FeatureSelectionConfig,
                                             BuildModelConfig,
                                             TrainModelDlConfig, 
                                             TestModelDlConfig
@@ -15,12 +17,11 @@ class ConfigurationManager:
     def __init__(
             self,
             config_filepath = Path(CONFIG_FILE_PATH),
-            params_filepath = Path(PARAMS_FILE_PATH)
+            params_filepath = Path(PARAMS_FILE_PATH),
         ):
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
-        
-        self.params.features.stat_features = stat_features_twc
+        self.params.features.stat_features = stat_features_tr
         self.params.labels.target_labels = target_labels
         self.params.labels.target_column = target_column
         self.params.features.seq_packet_feature = seq_packet_feature
@@ -30,6 +31,7 @@ class ConfigurationManager:
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config_data_ingestion = self.config.data_ingestion
+        print(config_data_ingestion)
         logger.info(f"Data ingestion config: {config_data_ingestion}")
         create_directories([config_data_ingestion.root_dir])
         logger.info(f"Created directories for data ingestion")
@@ -40,6 +42,8 @@ class ConfigurationManager:
             data_file_name=config_data_ingestion.data_file_name
         )
         return data_ingestion_config
+    
+    
     
     def get_data_transformation_config(self) -> DataTransformationConfig:
         config_data_transformation = self.config.data_transformation
@@ -53,6 +57,16 @@ class ConfigurationManager:
         )
         return data_transformation_config
 
+    def get_data_preprocessing_config(self) -> DataPreprocessingConfig:
+        config_data_preprocessing = self.config.data_preprocessing
+        create_directories([config_data_preprocessing.root_dir])
+        data_preprocessing_config = DataPreprocessingConfig(
+            root_dir=config_data_preprocessing.root_dir,
+            data_source_dir=config_data_preprocessing.data_source_dir,
+            data_file_name=config_data_preprocessing.data_file_name
+        )
+        return data_preprocessing_config
+
     def get_data_split_config(self) -> DataSplitConfig:
         config_data_split = self.config.data_split
         create_directories([config_data_split.root_dir])
@@ -63,6 +77,18 @@ class ConfigurationManager:
             params=self.params,
         )
         return data_split_config
+    
+    def get_feature_selection_config(self) -> FeatureSelectionConfig:
+        config_feature_selection = self.config.feature_selection
+        create_directories([config_feature_selection.root_dir])
+        feature_selection_config = FeatureSelectionConfig(
+            root_dir=config_feature_selection.root_dir,
+            data_source_dir=config_feature_selection.data_source_dir,
+            train_data_file_name=config_feature_selection.train_data_file_name,
+            test_data_file_name=config_feature_selection.test_data_file_name,
+            params=self.params
+        )
+        return feature_selection_config
     
     def get_build_model_config(self) -> BuildModelConfig:
         config_build_model = self.config.model_builder
