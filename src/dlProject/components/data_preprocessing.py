@@ -26,9 +26,9 @@ class DataPreprocessing:
         logger.info(f"Shape of d3 (Solana Home Office dataset): {d3.shape}")
         
         # Save the datasets to parquet files
-        d1.to_csv(Path(self.config.root_dir, 'data_sources_solana.csv'))
-        d2.to_csv(Path(self.config.root_dir, 'data_sources_homeoffice.csv'))
-        d3.to_csv(Path(self.config.root_dir, 'data_sources_solanatest.csv'))
+        d1.to_parquet(Path(self.config.root_dir, 'data_sources_solana.parquet'))
+        d2.to_parquet(Path(self.config.root_dir, 'data_sources_homeoffice.parquet'))
+        d3.to_parquet(Path(self.config.root_dir, 'data_sources_solanatest.parquet'))
 
         logger.info(f"Data preprocessing completed and saved to {self.config.root_dir}")
         end_time = time.time()

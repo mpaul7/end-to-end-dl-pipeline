@@ -5,9 +5,11 @@ import pandas as pd
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 from dlProject.utils.features import *
+from dlProject.utils.common import read_file
+
 
 def create_train_test_dataset_tf(data_file=None, params=None, train=None, evaluation=None):
-    _df = pd.read_csv(data_file)
+    _df = read_file(data_file)
     
     df = _df[_df[params.labels.target_column].isin(params.labels.target_labels)]
     
@@ -19,7 +21,7 @@ def create_train_test_dataset_tf(data_file=None, params=None, train=None, evalua
         features.extend(params.features.seq_packet_feature)
     if 'cnn' in model_type:
         features.extend(params.features.cnn_stat_feature)
-    print(features, "===============================================")
+        
     X = df[features]
     _y = df.loc[:, [params.labels.target_column]]
     y = pd.get_dummies(_y)

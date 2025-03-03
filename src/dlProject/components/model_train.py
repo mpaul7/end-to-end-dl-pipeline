@@ -91,10 +91,10 @@ class TrainModelDl:
         # Add TensorBoard callback if log directory is specified
         log_dir = f"{self.params.project.project_home}/{self.params.project.log_dir}"
         if log_dir:
-            callbacks.append(TensorBoard(log_dir=log_dir, histogram_freq=1, profile_batch='20, 40'))
+            callbacks.append(TensorBoard(log_dir=log_dir, histogram_freq=1))
         
         """ Add early stopping if enabled """
-        if self.params.model_params.early_stopping:
+        if self.params.model_params.is_early_stopping:
             callbacks.append(tf.keras.callbacks.EarlyStopping(
                 monitor=self.params.model_params.early_stopping.monitor, 
                 patience=self.params.model_params.early_stopping.patience,

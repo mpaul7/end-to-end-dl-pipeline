@@ -2,9 +2,9 @@ version: 1.0.0
 
 project: 
     type: "dl"
-    project_home: "/home/mpaul/projects/mpaul/mai2"
+    project_home: "."
     mlflow_uri: "http://localhost:5000"
-    log_dir: "/home/mpaul/projects/mpaul/mai2/logs"
+    log_dir: "logs"
     model_type: ["cnn"]
 
 features:     
@@ -25,12 +25,13 @@ data_split:
 
 model_params:
     initializer: he_uniform
-    epochs: 70
-    steps_per_epoch: 30
-    train_batch_size: 32
-    test_batch_size: 32
-    learning_rate: 0.001
+    epochs: 500
+    steps_per_epoch: 1000
+    train_batch_size: 128
+    test_batch_size: 128
+    learning_rate: 0.0005
     dropout_rate: 0.5
+    is_early_stopping: false
     early_stopping:
         monitor: val_loss
         patience: 10
