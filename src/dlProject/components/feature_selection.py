@@ -1,9 +1,7 @@
 from pathlib import Path
-
+import time
 from sklearn.feature_selection import RFE
-from sklearn.ensemble import RandomForestClassifier 
-from sklearn.model_selection import train_test_split    
-           
+from sklearn.ensemble import RandomForestClassifier  
 from dlProject.utils.features import *
 from dlProject.entity.config_entity import FeatureSelectionConfig
 from dlProject.utils.common import read_file
@@ -17,6 +15,7 @@ class FeatureSelection:
         self.test_data_file_name = config.test_data_file_name
         
     def feature_selection(self):
+        start_time = time.time()
         train_file = Path(self.config.data_source_dir, self.config.train_data_file_name)
         test_file = Path(self.config.data_source_dir, self.config.test_data_file_name)
         train_df = read_file(train_file)
@@ -40,13 +39,12 @@ class FeatureSelection:
             for feature in selected_features:
                 f.write(f"{feature}\n")
         logger.info(f"Selected features saved to: {selected_features_file}")
-        
+        logger.info(f"Feature selection completed in {time.time() - start_time} seconds")
      
         
         
         
-        
-        
+
         
         # train_df, test_df = train_test_split(df, test_size=self.params.data_split.test_size, random_state=42, #stratify=df[self.config.label_column]
         # feature_importances_df = pd.DataFrame({'feature': train_df.drop(columns=[self.config.label_column]).columns, 'importance': feature_importances})

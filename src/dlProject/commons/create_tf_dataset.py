@@ -4,10 +4,11 @@ import pandas as pd
 
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
-
+from dlProject.utils.features import *
 
 def create_train_test_dataset_tf(data_file=None, params=None, train=None, evaluation=None):
     _df = pd.read_csv(data_file)
+    
     df = _df[_df[params.labels.target_column].isin(params.labels.target_labels)]
     
     model_type = params.project.model_type
@@ -18,7 +19,7 @@ def create_train_test_dataset_tf(data_file=None, params=None, train=None, evalua
         features.extend(params.features.seq_packet_feature)
     if 'cnn' in model_type:
         features.extend(params.features.cnn_stat_feature)
-   
+    print(features, "===============================================")
     X = df[features]
     _y = df.loc[:, [params.labels.target_column]]
     y = pd.get_dummies(_y)
@@ -38,8 +39,8 @@ def create_train_test_dataset_tf(data_file=None, params=None, train=None, evalua
             X_pktseq = {name: np.stack(value) for name, value in X.loc[:, params.features.cnn_stat_feature].items()}
             feat_dict['pktstat_features'] = X_pktseq
         
-        # ds_X = tf.data.Dataset.from_tensor_slices(X_pktseq, name='X')
-        ds_X = tf.data.Dataset.from_tensor_slices(feat_dict, name='X')
+        ds_X = tf.data.Dataset.from_tensor_slices(X_pktseq, name='X')
+        # ds_X = tf.data.Dataset.from_tensor_slices(feat_dict, name='X')
         ds_y = tf.data.Dataset.from_tensor_slices(y)
         tf_dataset = tf.data.Dataset.zip((ds_X, ds_y))
         return tf_dataset

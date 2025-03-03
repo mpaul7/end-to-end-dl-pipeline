@@ -5,14 +5,14 @@ project:
     project_home: "/home/mpaul/projects/mpaul/mai2"
     mlflow_uri: "http://localhost:5000"
     log_dir: "/home/mpaul/projects/mpaul/mai2/logs"
-    model_type: ["mlp"]
+    model_type: ["cnn"]
 
 features:     
     use_transfer_learning: false
-    cn_stat_feature_length: 57
+    cn_stat_feature_length: 0
     sequence_length: 30
     seq_packet_feature: []
-    cnn_stat_feature: ["tr_stat_features"]
+    cnn_stat_feature: ""
     stat_features: []
 
 labels: 

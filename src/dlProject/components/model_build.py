@@ -12,6 +12,7 @@ from dlProject.entity.config_entity import BuildModelConfig
 from dlProject.commons.create_mlp_model import create_dl_model_mlp
 from dlProject.commons.create_lstm_model import create_dl_model_lstm
 from dlProject.commons.create_cnn_model import create_dl_model_cnn
+from dlProject.utils.features import *
 # from dlProject.components import utils_dl
 KERAS_INITIALIZER = {
         'default': tf.keras.initializers.GlorotUniform,

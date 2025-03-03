@@ -1,4 +1,3 @@
-
 import time
 from pathlib import Path
 
@@ -37,7 +36,7 @@ class DataTransformation:
         df[stat_features_tr] = scaler.fit_transform(df[stat_features_tr])
         df['stat_features_tr_cnn'] = df[stat_features_tr].values.tolist()
         file_name = Path(self.config.root_dir, (self.config.data_file_name).split(".")[0] + "_transformed.csv")
-        df.to_csv(file_name, index=False)
+        df.to_csv(file_name, index=False, columns=cnn_stat_feature + ["data_source", "refined_app_label"])
         logger.info(f"Data transformation completed and saved to {file_name}")
         end_time = time.time()
         logger.info(f"Data transformation completed in {end_time - start_time} seconds")

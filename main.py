@@ -47,32 +47,32 @@ STAGE_NAME = "Data Ingestion stage"
 #     logger.exception(e)
 #     raise e
 
+# try:
+#     logger.info(f">>>>>> stage Feature Selection started <<<<<<")
+#     obj = FeatureSelectionPipeline()
+#     obj.main()
+#     logger.info(f">>>>>> stage Feature Selection completed <<<<<<\n\nx==========x")
+# except Exception as e:
+#     logger.exception(e)
+#     raise e
+
 try:
-    logger.info(f">>>>>> stage Feature Selection started <<<<<<")
-    obj = FeatureSelectionPipeline()
+    logger.info(f">>>>>> stage Model Builder started <<<<<<")
+    obj = ModelBuilderPipeline()
     obj.main()
-    logger.info(f">>>>>> stage Feature Selection completed <<<<<<\n\nx==========x")
+    logger.info(f">>>>>> stage Model Builder completed <<<<<<\n\nx==========x")
 except Exception as e:
     logger.exception(e)
     raise e
 
-# try:
-#     logger.info(f">>>>>> stage Model Builder started <<<<<<")
-#     obj = ModelBuilderPipeline()
-#     obj.main()
-#     logger.info(f">>>>>> stage Model Builder completed <<<<<<\n\nx==========x")
-# except Exception as e:
-#     logger.exception(e)
-#     raise e
-
-# try:
-#     logger.info(f">>>>>> stage Train Model DL started <<<<<<")
-#     obj = TrainModelDlPipeline()
-#     obj.main()
-#     logger.info(f">>>>>> stage Train Model DL completed <<<<<<\n\nx==========x")
-# except Exception as e:
-#     logger.exception(e)
-#     raise e
+try:
+    logger.info(f">>>>>> stage Train Model DL started <<<<<<")
+    obj = TrainModelDlPipeline()
+    obj.main()
+    logger.info(f">>>>>> stage Train Model DL completed <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e
 
 
 # try:

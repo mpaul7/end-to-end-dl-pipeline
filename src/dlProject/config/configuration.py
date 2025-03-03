@@ -22,6 +22,8 @@ class ConfigurationManager:
         self.config = read_yaml(config_filepath)
         self.params = read_yaml(params_filepath)
         self.params.features.stat_features = stat_features_tr
+        self.params.features.cn_stat_feature_length = len(self.params.features.stat_features)
+        self.params.features.cnn_stat_feature = cnn_stat_feature
         self.params.labels.target_labels = target_labels
         self.params.labels.target_column = target_column
         self.params.features.seq_packet_feature = seq_packet_feature
