@@ -54,7 +54,9 @@ class TrainModelDlConfig:
 class TestModelDlConfig:
     root_dir: str
     data_source_dir: str
-    test_data_file_name: str
+    # test_data_file_name: str
+    cross_data_source_dir: str
+    test_files: list
     model_dir: str
     model_file_name: str
     params: dict

@@ -1,0 +1,15 @@
+artifact_uri: file:///home/solana/projects/mn_projects/end-to-end-dl-pipeline/mlruns/0/634d8e0fa0264a8cb8f6c518bfcec514/artifacts
+end_time: 1741119536464
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 634d8e0fa0264a8cb8f6c518bfcec514
+run_name: cnn_2
+run_uuid: 634d8e0fa0264a8cb8f6c518bfcec514
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1741114860405
+status: 3
+tags: []
+user_id: solana

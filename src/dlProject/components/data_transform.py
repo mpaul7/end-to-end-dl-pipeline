@@ -19,6 +19,12 @@ class DataTransformation:
         df = read_file(file)
         df = df[df['refined_app_label'].isin(target_labels)]
         df = df[stat_features_tr + ['refined_app_label', 'data_source'] ]
+        # Check for columns with all zero values
+        zero_columns = df[stat_features_tr].columns[(df[stat_features_tr] != 0).all()].tolist()
+        if zero_columns:
+            logger.info(f"Columns with all zero values: {zero_columns}")
+        else:
+            logger.info("No columns found with all zero values")
 
 
         # filter out rows with sport or dport as 53 or 5353, and rows with refined_app_label as null
@@ -27,9 +33,6 @@ class DataTransformation:
         logger.info(f"Dataset shape before dropping null values: {df.shape}")
         df.dropna(inplace=True)
         logger.info(f"Dataset shape after dropping null values: {df.shape}")
-        
-        
-
 
         logger.info(f"Transforming data using StandardScaler")
         scaler = StandardScaler()
@@ -43,25 +46,3 @@ class DataTransformation:
         end_time = time.time()
         logger.info(f"Data transformation completed in {end_time - start_time} seconds")
     
-    # general transformed data
-    # def transform_data(self):
-        
-    #     file = Path(self.config.data_source_dir, self.config.data_file_name)
-    #     df = read_file(file)
-        
-    #     # Get dataset summary
-    #     logger.info(f"Dataset shape: {df.shape}")
-    #     initial_rows = len(df)
-    #     df = df.dropna(subset=[self.config.label_column])
-    #     final_rows = len(df)
-    #     dropped_rows = initial_rows - final_rows
-    #     if dropped_rows > 0:
-    #         logger.info(f"Dropped {dropped_rows} rows containing null values. Rows reduced from {initial_rows} to {final_rows}")
-    #     else:
-    #         logger.info("No rows were dropped - no null values found in the dataset")
-    #     scaler = StandardScaler()
-    #     df[stat_features_twc] = scaler.fit_transform(df[stat_features_twc])
-    #     df['stat_features'] = df[stat_features_twc].values.tolist()
-    #     file_name = Path(self.config.root_dir, (self.config.data_file_name).split(".")[0] + "_transformed.csv")
-    #     df.to_csv(file_name, index=False)
-    #     logger.info(f"Data transformation completed and saved to {file_name}")

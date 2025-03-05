@@ -24,9 +24,9 @@ class TrainModelDlPipeline:
         model = train_model_dl.train_model_dl()
         
         """ Save model """
-        model_h5_path = Path(train_model_dl_config.root_dir, f"{train_model_dl_config.train_model_file_name}")
-        model.save(model_h5_path)
-        logger.info(f"\nModel saved to {model_h5_path}")
+        # model_h5_path = Path(train_model_dl_config.root_dir, f"{train_model_dl_config.train_model_file_name}")
+        # model.save(model_h5_path)
+        # logger.info(f"\nModel saved to {model_h5_path}")
 
 if __name__ == '__main__':
     try:

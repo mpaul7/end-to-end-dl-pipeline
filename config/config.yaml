@@ -1,57 +1,60 @@
 artifacts_root: artifacts
-experiment_name: data_feb16
+experiment_name: data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr
 
 data_ingestion:
-  root_dir: artifacts/data_mar03/data_ingestion
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_ingestion
   data_source_dir: data_source
   data_file_name: tr_ext_Solana_alldata_mapped_100per.parquet
 
 data_transformation:
-  root_dir: artifacts/data_mar03/data_transformation
-  data_source_dir: artifacts/data_mar03/data_ingestion
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_transformation
+  data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_ingestion
   data_file_name: tr_ext_Solana_alldata_mapped_100per.parquet
   label_column: refined_app_label
 
 data_preprocessing:
-  root_dir: artifacts/data_mar03/data_preparation
-  data_source_dir: artifacts/data_mar03/data_transformation
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_preparation
+  data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_transformation
   data_file_name: tr_ext_Solana_alldata_mapped_100per_transformed.parquet
 
 data_split:
-  root_dir: artifacts/data_mar03/data_split
-  data_source_dir: artifacts/data_mar03/data_preparation
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+  data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_preparation
   data_file_name: data_sources_solana.parquet
   params: {}
 
-feature_selection:
-  root_dir: artifacts/data_mar03/feature_selection  
-  data_source_dir: artifacts/data_mar03/data_split
-  train_data_file_name: data_sources_solana_train.parquet
-  test_data_file_name: data_sources_solana_test.parquet
-  params: {}
+# feature_selection:
+#   root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/feature_selection  
+#   data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+#   train_data_file_name: data_sources_solana_train.parquet
+#   test_data_file_name: data_sources_solana_test.parquet
+#   params: {}
 
 model_builder:
-  root_dir: artifacts/data_mar03/model_builder
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_builder
   model_json: model.json
   model_plot: model.png
   params: {}
 
 model_trainer:
-  root_dir: artifacts/data_mar03/model_trainer
-  data_source_dir: artifacts/data_mar03/data_split
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_trainer
+  data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
   train_data_file_name: data_sources_solana_train.parquet
-  model_source_dir: artifacts/data_mar03/model_builder
+  model_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_builder
   model_file_name: model.json
   train_model_file_name: model.h5
   params: {}
 
 model_test:
-  root_dir: artifacts/data_mar03/model_test
-  data_source_dir: artifacts/data_mar03/data_split
-  test_data_file_name: data_sources_solana_test.parquet
-  model_dir: artifacts/data_mar03/model_trainer    
+  root_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_test
+  data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+  cross_data_source_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_preparation
+  test_files:
+    - data_sources_solana_test.parquet
+    - data_sources_solanatest.parquet 
+    - data_sources_homeoffice.parquet
+  model_dir: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_trainer    
   model_file_name: model.h5
   params: {}
-
 
 

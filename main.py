@@ -47,14 +47,14 @@ STAGE_NAME = "Data Ingestion stage"
 #     logger.exception(e)
 #     raise e
 
-try:
-    logger.info(f">>>>>> stage Feature Selection started <<<<<<")
-    obj = FeatureSelectionPipeline()
-    obj.main()
-    logger.info(f">>>>>> stage Feature Selection completed <<<<<<\n\nx==========x")
-except Exception as e:
-    logger.exception(e)
-    raise e
+# try:
+#     logger.info(f">>>>>> stage Feature Selection started <<<<<<")
+#     obj = FeatureSelectionPipeline()
+#     obj.main()
+#     logger.info(f">>>>>> stage Feature Selection completed <<<<<<\n\nx==========x")
+# except Exception as e:
+#     logger.exception(e)
+#     raise e
 
 # try:
 #     logger.info(f">>>>>> stage Model Builder started <<<<<<")
@@ -75,11 +75,11 @@ except Exception as e:
 #     raise e
 
 
-# try:
-#     logger.info(f">>>>>> stage Model Test started <<<<<<")
-#     obj = TestModelDlPipeline()
-#     obj.main()
-#     logger.info(f">>>>>> stage Model Test completed <<<<<<\n\nx==========x")
-# except Exception as e:
-#     logger.exception(e)
-#     raise e
+try:
+    logger.info(f">>>>>> stage Model Test started <<<<<<")
+    obj = TestModelDlPipeline()
+    obj.main()
+    logger.info(f">>>>>> stage Model Test completed <<<<<<\n\nx==========x")
+except Exception as e:
+    logger.exception(e)
+    raise e

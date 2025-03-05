@@ -2,6 +2,10 @@ import warnings
 warnings.filterwarnings('ignore')
 
 import json
+import mlflow
+import platform
+import os
+from datetime import datetime
 from pathlib import Path
 
 import tensorflow as tf
@@ -9,6 +13,7 @@ from keras.callbacks import TensorBoard
 from keras.losses import CategoricalCrossentropy, SparseCategoricalCrossentropy
 
 from dlProject.utils.common import *
+from dlProject.utils.features import *
 from dlProject.entity.config_entity import TrainModelDlConfig
 
 loss_function = {
@@ -28,9 +33,11 @@ class TrainModelDl:
         self.params.model_name = model_name
         self.params.model_plot = Path(self.config.root_dir, f"{model_name}.png")
         self.params.output_units = len(self.params.labels)
-
-        self.params.experiment_name = f"cnn_mlp_stat_solana_data_nfs_ext_2024-02-08_v1"
         
+        self.params.experiment_name = f"{model_name}_{len(stat_features_tr)}"
+        self.params.model_h5_path = Path(self.config.root_dir, self.config.train_model_file_name)
+        
+
     def train_model_dl(self):
         """ Train DL model
             creates model architecture, trains the model and saves the model
@@ -65,17 +72,50 @@ class TrainModelDl:
         
         """ Setup callbacks """
         callbacks = self._setup_callbacks()
-
-        """ Train model """
-        model.fit(
-            train_dataset,
-            epochs=self.params.model_params.epochs,
-            steps_per_epoch=self.params.model_params.steps_per_epoch,
-            validation_data=val_dataset,
-            callbacks=callbacks
-        )
+        date = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        with mlflow.start_run(run_name=f"{self.params.project.run_name}"):
+            # Log model parameters
+            mlflow.log_params({
+                'learning_rate': self.params.model_params.learning_rate,
+                'batch_size': self.params.model_params.train_batch_size,
+                'epochs': self.params.model_params.epochs,
+                'steps_per_epoch': self.params.model_params.steps_per_epoch,
+                'dropout_rate': self.params.model_params.dropout_rate,
+                'regularizer': self.params.model_params.regularizer,
+            })
             
-        return model
+            # Log system metrics
+            mlflow.log_param("system_info", {
+                "python_version": platform.python_version(),
+                "platform": platform.platform(),
+                "cpu_count": os.cpu_count(),
+            })
+
+            """ Train model """
+            history = model.fit(
+                train_dataset,
+                epochs=self.params.model_params.epochs,
+                steps_per_epoch=self.params.model_params.steps_per_epoch,
+                validation_data=val_dataset,
+                callbacks=callbacks
+            )
+            
+            for epoch in range(len(history.history['accuracy'])):
+                mlflow.log_metrics({
+                    'training_accuracy': history.history['accuracy'][epoch],
+                    'training_loss': history.history['loss'][epoch],
+                    'validation_accuracy': history.history['val_accuracy'][epoch], 
+                    'validation_loss': history.history['val_loss'][epoch]
+                }, step=epoch)
+                
+            """ Save model """
+            model.save(self.params.model_h5_path)
+            logger.info(f"\nModel saved to {self.params.model_h5_path}")
+            
+            mlflow.tensorflow.log_model(model, "model", registered_model_name=self.params.model_name)
+            mlflow.log_artifact(self.params.model_h5_path)
+            
+            return model
 
     def _setup_callbacks(self) -> list:
         """Sets up training callbacks based on configuration.

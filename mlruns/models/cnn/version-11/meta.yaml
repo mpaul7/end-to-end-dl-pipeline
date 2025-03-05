@@ -1,0 +1,12 @@
+creation_timestamp: 1741149451635
+current_stage: None
+description: null
+last_updated_timestamp: 1741149451635
+name: cnn
+run_id: a9e5c2d7375a45ef8cc05530e9a62f3a
+run_link: null
+source: file:///home/solana/projects/mn_projects/end-to-end-dl-pipeline/mlruns/0/a9e5c2d7375a45ef8cc05530e9a62f3a/artifacts/model
+status: READY
+status_message: null
+user_id: null
+version: 11
