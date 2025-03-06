@@ -66,12 +66,12 @@ def plot_dynamic_bargraph(df, output_file):
     
     # Adjust X-axis ticks and labels
     ax.set_xticks([p + bar_width * (num_bars / 2 - 0.5) for p in positions])
-    ax.set_xticklabels(applications, rotation=45, ha='right')
+    ax.set_xticklabels(applications, rotation=0, ha='right')
 
     # Add labels and title
     ax.set_xlabel('Applications')
-    ax.set_ylabel('Values')
-    ax.set_title('Dynamic Bar Graph for Applications')
+    ax.set_ylabel('F1 Score (%)')
+    ax.set_title('F1 Score for Applications')
 
     # Show legend
     ax.legend()

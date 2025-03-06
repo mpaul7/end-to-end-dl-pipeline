@@ -95,27 +95,27 @@ def create_dl_model_cnn(params):
     pktseq_x = layers.Conv1D(64, kernel_size=3, strides=1, kernel_regularizer=regularizer,  padding='same', input_shape=(None, 3))(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)
     pktseq_x = layers.BatchNormalization(axis=-1, epsilon=1e-05, momentum=0.9, center=True, scale=True)(pktseq_x)
-    # pktseq_x = layers.Dropout(0.1)(pktseq_x)
+    pktseq_x = layers.Dropout(0.1)(pktseq_x)
 
     pktseq_x = layers.Conv1D(64, kernel_size=3, strides=1, kernel_regularizer=regularizer, padding='same')(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)
     pktseq_x = layers.BatchNormalization(axis=-1, epsilon=1e-05, momentum=0.9, center=True, scale=True)(pktseq_x)
-    # pktseq_x = layers.Dropout(0.1)(pktseq_x)
+    pktseq_x = layers.Dropout(0.1)(pktseq_x)
 
     pktseq_x = layers.Conv1D(64, kernel_size=3, strides=1, kernel_regularizer=regularizer, padding='same')(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)
     pktseq_x = layers.BatchNormalization(axis=-1, epsilon=1e-05, momentum=0.9, center=True, scale=True)(pktseq_x)
-    # pktseq_x = layers.Dropout(0.1)(pktseq_x)
+    pktseq_x = layers.Dropout(0.1)(pktseq_x)
 
     pktseq_x = layers.Conv1D(64, kernel_size=3, strides=1, kernel_regularizer=regularizer, padding='same')(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)
     pktseq_x = layers.BatchNormalization(axis=-1, epsilon=1e-05, momentum=0.9, center=True, scale=True)(pktseq_x)
-    # pktseq_x = layers.Dropout(0.1)(pktseq_x)
+    pktseq_x = layers.Dropout(0.1)(pktseq_x)
 
     pktseq_x = layers.Conv1D(64, kernel_size=3, strides=1, kernel_regularizer=regularizer, padding='valid')(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)
     pktseq_x = layers.BatchNormalization(axis=-1, epsilon=1e-05, momentum=0.9, center=True, scale=True)(pktseq_x)
-    # pktseq_x = layers.Dropout(0.1)(pktseq_x)
+    pktseq_x = layers.Dropout(0.1)(pktseq_x)
 # =========
     pktseq_x = layers.Conv1D(96, kernel_size=5, strides=1, kernel_regularizer=regularizer, padding='valid')(pktseq_x)
     pktseq_x = layers.ReLU()(pktseq_x)

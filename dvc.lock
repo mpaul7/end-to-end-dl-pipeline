@@ -5,7 +5,7 @@ stages:
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: data_source/tr_ext_Solana_alldata_mapped_100per.parquet
       hash: md5
@@ -16,7 +16,7 @@ stages:
       md5: e5bf4f7a2f3f8e0609c0af8000576a14
       size: 842
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_ingestion
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_ingestion
       hash: md5
       md5: e4212af9f9a9d8197ee80530ec2a488b.dir
       size: 906763852
@@ -24,14 +24,14 @@ stages:
   data_transformation:
     cmd: python3 src/dlProject/pipeline/stage_02_data_transformation.py
     deps:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_ingestion
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_ingestion
       hash: md5
       md5: e4212af9f9a9d8197ee80530ec2a488b.dir
       size: 906763852
       nfiles: 1
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: src/dlProject/pipeline/stage_02_data_transformation.py
       hash: md5
@@ -39,22 +39,22 @@ stages:
       size: 849
     outs:
     - path: 
-        artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_transformation
+        artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_transformation
       hash: md5
-      md5: be9959961be08fbb3238dfe023dee7f6.dir
-      size: 158918905
+      md5: 4471376b25d92895320f10e714468033.dir
+      size: 72873824
       nfiles: 1
   data_split:
     cmd: python3 src/dlProject/pipeline/stage_03_data_split.py
     deps:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_preparation
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_preparation
       hash: md5
-      md5: 4ee57f80199e673b2ae2491646aef9dd.dir
-      size: 162297741
+      md5: e0272fad8d983ebf68403c1badec53e7.dir
+      size: 74648747
       nfiles: 3
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: src/dlProject/pipeline/stage_03_data_split.py
       hash: md5
@@ -64,17 +64,17 @@ stages:
       params.yaml:
         data_split.test_size: 0.2
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_split
       hash: md5
-      md5: 78cf9fcdb295d6a00f9e2c4c50e107a5.dir
-      size: 199575819
+      md5: ed8a397167aeba9e3c72ff3fefd78a2f.dir
+      size: 94949127
       nfiles: 2
   model_builder:
     cmd: python3 src/dlProject/pipeline/stage_04_model_build.py
     deps:
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: src/dlProject/pipeline/stage_04_model_build.py
       hash: md5
@@ -85,27 +85,27 @@ stages:
         project.model_type:
         - cnn
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_builder
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/model_builder
       hash: md5
-      md5: 3b51ce0f46ea270b4e002eaf959d5b63.dir
-      size: 293933
+      md5: ced5a6bc6151d55ee6e97039c252c6c4.dir
+      size: 331571
       nfiles: 2
   model_trainer:
     cmd: python3 src/dlProject/pipeline/stage_05_model_train.py
     deps:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_split
       hash: md5
-      md5: 78cf9fcdb295d6a00f9e2c4c50e107a5.dir
-      size: 199575819
+      md5: ed8a397167aeba9e3c72ff3fefd78a2f.dir
+      size: 94949127
       nfiles: 2
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_builder
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/model_builder
       hash: md5
-      md5: 3b51ce0f46ea270b4e002eaf959d5b63.dir
-      size: 293933
+      md5: ced5a6bc6151d55ee6e97039c252c6c4.dir
+      size: 331571
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: params.yaml
       hash: md5
@@ -120,27 +120,32 @@ stages:
       md5: ad1706bdc92aa39f4d3a8ed8723b0858
       size: 1529
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_trainer
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/model_trainer
       hash: md5
-      md5: a1a41e0864f98a28a08dc07975e08b92.dir
-      size: 2119273
+      md5: 47c593162392eaa4ee591112a8046f3c.dir
+      size: 2154871
       nfiles: 2
   model_test:
     cmd: python3 src/dlProject/pipeline/stage_06_model_test.py
     deps:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_split
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_preparation
       hash: md5
-      md5: 78cf9fcdb295d6a00f9e2c4c50e107a5.dir
-      size: 199575819
+      md5: e0272fad8d983ebf68403c1badec53e7.dir
+      size: 74648747
+      nfiles: 3
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_split
+      hash: md5
+      md5: ed8a397167aeba9e3c72ff3fefd78a2f.dir
+      size: 94949127
       nfiles: 2
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_trainer
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/model_trainer
       hash: md5
-      md5: a1a41e0864f98a28a08dc07975e08b92.dir
-      size: 2119273
+      md5: 47c593162392eaa4ee591112a8046f3c.dir
+      size: 2154871
       nfiles: 2
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: params.yaml
       hash: md5
@@ -151,31 +156,31 @@ stages:
       md5: ec5e1a0feb527c12c9d496655b8ca01e
       size: 3340
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/model_test
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/model_test
       hash: md5
-      md5: 4aec4201f7e4467729575040bc3ab9d4.dir
-      size: 108535
+      md5: 7cda67719bb743c93a868b513fdeb9d8.dir
+      size: 72409
       nfiles: 5
   data_preprocessing:
     cmd: python3 src/dlProject/pipeline/stage_02a_data_preparation.py
     deps:
     - path: 
-        artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_transformation
+        artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_transformation
       hash: md5
-      md5: be9959961be08fbb3238dfe023dee7f6.dir
-      size: 158918905
+      md5: 4471376b25d92895320f10e714468033.dir
+      size: 72873824
       nfiles: 1
     - path: config/config.yaml
       hash: md5
-      md5: 5abfc61b09aae2d140823c4169c710b0
+      md5: 47cedca64024ce862417cfa25400431b
       size: 2660
     - path: src/dlProject/pipeline/stage_02a_data_preparation.py
       hash: md5
       md5: 713a4c84295a5270e9179998a657a410
       size: 834
     outs:
-    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_dr/data_preparation
+    - path: artifacts/data_mar04a_ds_tcp_ssl_features_selected_lr0.0001_v3/data_preparation
       hash: md5
-      md5: 4ee57f80199e673b2ae2491646aef9dd.dir
-      size: 162297741
+      md5: e0272fad8d983ebf68403c1badec53e7.dir
+      size: 74648747
       nfiles: 3
